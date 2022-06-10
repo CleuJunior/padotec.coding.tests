@@ -14,13 +14,13 @@ public class IoTDeviceService {
     IoTDeviceRepository iotDeviceRepository;
 
     @Autowired
-    public IoTDeviceService(IoTDeviceRepository iotDeviceRepository) {
-        this.iotDeviceRepository = iotDeviceRepository;
-    }
-
-    public void insertIoT(IoTDevice iotDevice) { this.iotDeviceRepository.save(iotDevice); }
+    public IoTDeviceService(IoTDeviceRepository iotDeviceRepository) { this.iotDeviceRepository = iotDeviceRepository; }
 
     public List<IoTDevice> findAllDevice() { return this.iotDeviceRepository.findAll(); }
+
+    public IoTDevice findDeviceById(Long id) { return this.iotDeviceRepository.findById(id).orElseThrow(); }
+
+    public void insertIoT(IoTDevice iotDevice) { this.iotDeviceRepository.save(iotDevice); }
 
     public IoTDevice fromDTOToIoT(IoTDeviceDTO ioTDeviceDTO) {
         return new IoTDevice(

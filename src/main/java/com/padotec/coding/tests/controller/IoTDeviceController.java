@@ -6,6 +6,7 @@ import com.padotec.coding.tests.json.IoTDevicePostJson;
 import com.padotec.coding.tests.services.IoTDeviceService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/")
+@RequestMapping
 public class IoTDeviceController {
 
     IoTDeviceService iotDeviceService;
@@ -25,6 +26,26 @@ public class IoTDeviceController {
         this.iotDeviceService = iotDeviceService;
     }
 
+    @GetMapping(value = "/listar")
+    public ResponseEntity<List<IoTDeviceDTO>> findAllDevices() {
+        List<IoTDevice> iotDevices = this.iotDeviceService.findAllDevice();
+
+        return ResponseEntity.ok()
+                .body(iotDevices.stream()
+                        .map(IoTDeviceDTO::new)
+                        .collect(java.util.stream.Collectors.toList()));
+
+    }
+
+    @GetMapping(value = "/listar/{deviceId}")
+    public ResponseEntity<IoTDeviceDTO> findDevicesById(@PathVariable Long deviceId) {
+        IoTDevice iotDevice = this.iotDeviceService.findDeviceById(deviceId);
+
+        IoTDeviceDTO iotDeviceDTO = new IoTDeviceDTO(iotDevice);
+
+        return ResponseEntity.ok().body(iotDeviceDTO);
+
+    }
 
     @PostMapping(value = "/registrar")
     public ResponseEntity<IoTDevicePostJson> insertIoT(@RequestBody IoTDeviceDTO iotDeviceDTO) {
@@ -42,13 +63,4 @@ public class IoTDeviceController {
 
     }
 
-    @GetMapping(value = "/listar")
-    public ResponseEntity<List<IoTDeviceDTO>> findAllDevices() {
-        List<IoTDevice> iotDevices = this.iotDeviceService.findAllDevice();
-
-        return ResponseEntity.ok(iotDevices.stream()
-                .map(IoTDeviceDTO::new)
-                .collect(java.util.stream.Collectors.toList()));
-
-    }
 }
