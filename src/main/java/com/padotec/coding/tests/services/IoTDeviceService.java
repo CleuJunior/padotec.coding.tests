@@ -6,6 +6,8 @@ import com.padotec.coding.tests.repositories.IoTDeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class IoTDeviceService {
 
@@ -16,9 +18,9 @@ public class IoTDeviceService {
         this.iotDeviceRepository = iotDeviceRepository;
     }
 
-    public IoTDevice insertIoT(IoTDevice iotDevice) {
-        return this.iotDeviceRepository.save(iotDevice);
-    }
+    public void insertIoT(IoTDevice iotDevice) { this.iotDeviceRepository.save(iotDevice); }
+
+    public List<IoTDevice> findAllDevice() { return this.iotDeviceRepository.findAll(); }
 
     public IoTDevice fromDTOToIoT(IoTDeviceDTO ioTDeviceDTO) {
         return new IoTDevice(
