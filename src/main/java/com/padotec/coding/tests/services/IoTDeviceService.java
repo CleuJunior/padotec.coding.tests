@@ -22,6 +22,8 @@ public class IoTDeviceService {
 
     public void insertIoT(IoTDevice iotDevice) { this.iotDeviceRepository.save(iotDevice); }
 
+    public void insertListIoT(List<IoTDevice> iotDevices) { this.iotDeviceRepository.saveAll(iotDevices); }
+
     public IoTDevice fromDTOToIoT(IoTDeviceDTO ioTDeviceDTO) {
         return new IoTDevice(
 

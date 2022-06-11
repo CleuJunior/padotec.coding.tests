@@ -1,16 +1,16 @@
-package com.padotec.coding.tests.json;
+package com.padotec.coding.tests.dto;
 
 
 import com.padotec.coding.tests.entities.IoTDevice;
 
-public class IoTDevicePostJson {
+public class IoTDevicePostDTO {
 
     private Long deviceId;
     private String mac;
 
-    public IoTDevicePostJson() { }
+    public IoTDevicePostDTO() { }
 
-    public IoTDevicePostJson(IoTDevice ioTDevice) {
+    public IoTDevicePostDTO(IoTDevice ioTDevice) {
         this.deviceId = ioTDevice.getDeviceId();
         this.mac = ioTDevice.getMac();
 

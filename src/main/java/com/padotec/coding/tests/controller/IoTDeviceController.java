@@ -1,9 +1,13 @@
 package com.padotec.coding.tests.controller;
 
+import com.padotec.coding.tests.configs.RabbitMQConfig;
 import com.padotec.coding.tests.dto.IoTDeviceDTO;
+import com.padotec.coding.tests.dto.IoTDeviceListPostDTO;
+import com.padotec.coding.tests.dto.IoTDevicePostDTO;
 import com.padotec.coding.tests.entities.IoTDevice;
-import com.padotec.coding.tests.json.IoTDevicePostJson;
 import com.padotec.coding.tests.services.IoTDeviceService;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,19 +15,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
 @RequestMapping
 public class IoTDeviceController {
 
-    IoTDeviceService iotDeviceService;
+    private final IoTDeviceService iotDeviceService;
+    private final AmqpTemplate amqpTemplate;
 
-    public IoTDeviceController(IoTDeviceService iotDeviceService) {
+    @Autowired
+    public IoTDeviceController(IoTDeviceService iotDeviceService, AmqpTemplate amqpTemplate) {
         this.iotDeviceService = iotDeviceService;
+        this.amqpTemplate = amqpTemplate;
     }
 
     @GetMapping(value = "/listar")
@@ -48,18 +53,33 @@ public class IoTDeviceController {
     }
 
     @PostMapping(value = "/registrar")
-    public ResponseEntity<IoTDevicePostJson> insertIoT(@RequestBody IoTDeviceDTO iotDeviceDTO) {
+    public ResponseEntity<IoTDevicePostDTO> insertIoT(@RequestBody IoTDeviceDTO iotDeviceDTO) {
 
         IoTDevice iotDevice = this.iotDeviceService.fromDTOToIoT(iotDeviceDTO);
         this.iotDeviceService.insertIoT(iotDevice);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(iotDevice)
-                .toUri();
+        return ResponseEntity.accepted()
+                .body(new IoTDevicePostDTO(iotDevice));
 
-        return ResponseEntity.created(uri)
-                .body(new IoTDevicePostJson(iotDevice));
+    }
+
+    @PostMapping(value = "/registrar/async")
+    public ResponseEntity<List<IoTDeviceListPostDTO>> insertIoTList(@RequestBody List<IoTDeviceDTO> iotDevicesDTO) {
+
+        List<IoTDevice> iotDevices = iotDevicesDTO.stream()
+                .map(this.iotDeviceService::fromDTOToIoT)
+                .collect(java.util.stream.Collectors.toList());
+
+        List<IoTDeviceListPostDTO> iotDeviceListPostDTOS = iotDevices.stream()
+                .map(IoTDeviceListPostDTO::new)
+                .collect(java.util.stream.Collectors.toList());
+
+        this.iotDeviceService.insertListIoT(iotDevices);
+
+        this.amqpTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, iotDevices);
+
+        return ResponseEntity.accepted()
+                .body(iotDeviceListPostDTOS);
 
     }
 
