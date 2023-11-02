@@ -19,10 +19,10 @@ public class IoTDevice {
      private Double latitude;
      private Double longitude;
 
-     public IoTDevice() { }
+     public IoTDevice() {
+     }
 
-    public IoTDevice(Long deviceId, String name, String mac, String email, Double latitude, Double longitude) {
-        this.deviceId = deviceId;
+    public IoTDevice(String name, String mac, String email, Double latitude, Double longitude) {
         this.name = name;
         this.mac = mac;
         this.email = email;
@@ -30,27 +30,51 @@ public class IoTDevice {
         this.longitude = longitude;
     }
 
-    public Long getDeviceId() { return deviceId; }
+    public Long getDeviceId() {
+         return deviceId;
+    }
 
-    public String getName() { return name; }
+    public String getName() {
+         return name;
+    }
 
-    public String getMac() { return mac; }
+    public String getMac() {
+         return mac;
+    }
 
-    public String getEmail() { return email; }
+    public String getEmail() {
+         return email;
+    }
 
-    public Double getLatitude() { return latitude; }
+    public Double getLatitude() {
+         return latitude;
+    }
 
-    public Double getLongitude() { return longitude; }
+    public Double getLongitude() {
+         return longitude;
+    }
 
-    public void setDeviceId(Long deviceId) { this.deviceId = deviceId; }
+    public void setDeviceId(Long deviceId) {
+         this.deviceId = deviceId;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+         this.name = name;
+    }
 
-    public void setMac(String mac) { this.mac = mac; }
+    public void setMac(String mac) {
+         this.mac = mac;
+    }
 
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) {
+         this.email = email;
+    }
 
-    public void setLatitude(Double latitude) { this.latitude = latitude; }
+    public void setLatitude(Double latitude) {
+         this.latitude = latitude;
+    }
 
-    public void setLongitude(Double longitude) { this.longitude = longitude; }
+    public void setLongitude(Double longitude) {
+         this.longitude = longitude;
+    }
 }

@@ -1,39 +1,59 @@
 package com.padotec.coding.tests.services;
 
-import com.padotec.coding.tests.dto.IoTDeviceDTO;
+import com.padotec.coding.tests.dto.request.IoTDeviceListRequest;
+import com.padotec.coding.tests.dto.response.IoTDeviceResponse;
 import com.padotec.coding.tests.entities.IoTDevice;
 import com.padotec.coding.tests.repositories.IoTDeviceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class IoTDeviceService {
+    private final IoTDeviceRepository iotDeviceRepository;
 
-    IoTDeviceRepository iotDeviceRepository;
+    public IoTDeviceService(IoTDeviceRepository iotDeviceRepository) {
+        this.iotDeviceRepository = iotDeviceRepository;
+    }
 
-    @Autowired
-    public IoTDeviceService(IoTDeviceRepository iotDeviceRepository) { this.iotDeviceRepository = iotDeviceRepository; }
+    public List<IoTDeviceResponse> findAllDevice() {
+        return this.iotDeviceRepository
+                .findAll()
+                .stream()
+                .map(IoTDeviceResponse::of)
+                .collect(Collectors.toList());
+    }
 
-    public List<IoTDevice> findAllDevice() { return this.iotDeviceRepository.findAll(); }
+    public IoTDeviceResponse findDeviceById(Long id) {
+        IoTDevice device =  this.iotDeviceRepository.findById(id).orElseThrow();
 
-    public IoTDevice findDeviceById(Long id) { return this.iotDeviceRepository.findById(id).orElseThrow(); }
+        return IoTDeviceResponse.of(device);
+    }
 
-    public void insertIoT(IoTDevice iotDevice) { this.iotDeviceRepository.save(iotDevice); }
+    public IoTDeviceResponse insertIoT(IoTDeviceListRequest request) {
+        IoTDevice diveceFromRequest = this.fromRequest(request);
+        IoTDevice response = this.iotDeviceRepository.save(diveceFromRequest);
 
-    public void insertListIoT(List<IoTDevice> iotDevices) { this.iotDeviceRepository.saveAll(iotDevices); }
+        return IoTDeviceResponse.of(response);
+    }
 
-    public IoTDevice fromDTOToIoT(IoTDeviceDTO ioTDeviceDTO) {
+    public void insertListIoT(List<IoTDeviceListRequest> requests) {
+        List<IoTDevice> devices = requests.
+                stream()
+                .map(this::fromRequest)
+                .collect(Collectors.toList());
+
+        this.iotDeviceRepository.saveAll(devices);
+    }
+
+    private IoTDevice fromRequest(IoTDeviceListRequest ioTDeviceResponse) {
         return new IoTDevice(
-
-                ioTDeviceDTO.getDeviceId(),
-                ioTDeviceDTO.getName(),
-                ioTDeviceDTO.getMac(),
-                ioTDeviceDTO.getEmail(),
-                ioTDeviceDTO.getLatitude(),
-                ioTDeviceDTO.getLongitude()
-
+                ioTDeviceResponse.getName(),
+                ioTDeviceResponse.getMac(),
+                ioTDeviceResponse.getEmail(),
+                ioTDeviceResponse.getLatitude(),
+                ioTDeviceResponse.getLongitude()
         );
     }
 
