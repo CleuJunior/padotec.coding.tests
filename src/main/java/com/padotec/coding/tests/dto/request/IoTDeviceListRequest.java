@@ -14,12 +14,12 @@ public class IoTDeviceListRequest {
     public IoTDeviceListRequest() {
     }
 
-    public IoTDeviceListRequest(IoTDevice ioTDevice) {
-        this.name = ioTDevice.getName();
-        this.mac = ioTDevice.getMac();
-        this.email = ioTDevice.getEmail();
-        this.latitude = ioTDevice.getLatitude();
-        this.longitude = ioTDevice.getLongitude();
+    public IoTDeviceListRequest(String name, String mac, String email, Double latitude, Double longitude) {
+        this.name = name;
+        this.mac = mac;
+        this.email = email;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getName() {
