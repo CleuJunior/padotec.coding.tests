@@ -1,10 +1,12 @@
-package com.padotec.coding.tests.producers;
+package br.com.cleonildo.producers;
 
-import com.padotec.coding.tests.configs.broker.RabbitMQConfig;
-import com.padotec.coding.tests.dto.request.IoTDeviceRequest;
+import br.com.cleonildo.configs.broker.RabbitMQConfig;
+import br.com.cleonildo.dto.request.IoTDeviceRequest;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class IoTProducer {
@@ -17,8 +19,8 @@ public class IoTProducer {
         this.template = template;
     }
 
-    public void publisIoTDevice(IoTDeviceRequest request) {
-        System.out.println("Cheguei aqui");
+    public void publisIoTDevice(List<IoTDeviceRequest> request) {
+        this.template.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, request);
     }
 
 }

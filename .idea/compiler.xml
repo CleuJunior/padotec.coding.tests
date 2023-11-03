@@ -7,14 +7,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="padotec.coding.tests" />
+        <module name="iotdevices" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="iotdevices" target="1.5" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="iotdevices" options="-parameters" />
       <module name="padotec.coding.tests" options="-parameters" />
     </option>
   </component>

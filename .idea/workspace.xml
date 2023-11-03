@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6308421-20f3-44d9-880b-474d49256d3c" name="Changes" comment="refactor: refact folder.">
-      <change beforePath="$PROJECT_DIR$/ms-device/README.md" beforeDir="false" />
+    <list default="true" id="f6308421-20f3-44d9-880b-474d49256d3c" name="Changes" comment="refactor: ms IoTDevices.">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iotdevices/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/iotdevices/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +74,7 @@
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "dart.analysis.tool.window.visible": "false",
     "jdk.selected.JAVA_MODULE": "corretto-11",
-    "last_opened_file_path": "/home/dev/Documents/Java/padotec.coding.tests/iotdevices",
+    "last_opened_file_path": "/home/dev/Documents/Java/padotec.coding.tests/iotdevices/src/main/java/br/com/cleonildo",
     "mysql-explain.agentPath": "/home/dev/.local/share/JetBrains/IdeaIC2023.2/mysql-explain-intellij-plugin/lib/mysql-explain-agent-1.1.0-jar-with-dependencies.jar",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
@@ -79,6 +83,9 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/iotdevices/src/main/java/br/com/cleonildo" />
+    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
@@ -87,6 +94,19 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.PadotecCodingTestsApplication">
+    <configuration name="IotdevicesApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="br.com.cleonildo.IotdevicesApplication" />
+      <module name="iotdevices" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="br.com.cleonildo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="PadotecCodingTestsApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.padotec.coding.tests.PadotecCodingTestsApplication" />
       <module name="padotec.coding.tests" />
@@ -111,22 +131,6 @@
       <option name="PACKAGE_NAME" value="com.padotec.coding.tests.services" />
       <option name="MAIN_CLASS_NAME" value="com.padotec.coding.tests.services.IoTDeviceServiceTest" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="IoTDeviceServiceTest.givenIoTDeviceRepository_whenFindAllDevices_thenReturnEmptyList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="padotec.coding.tests" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.padotec.coding.tests.services.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.padotec.coding.tests.services" />
-      <option name="MAIN_CLASS_NAME" value="com.padotec.coding.tests.services.IoTDeviceServiceTest" />
-      <option name="METHOD_NAME" value="givenIoTDeviceRepository_whenFindAllDevices_thenReturnEmptyList" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -164,10 +168,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.PadotecCodingTestsApplication" />
+        <item itemvalue="Application.IotdevicesApplication" />
         <item itemvalue="Docker.docker: Compose Deployment" />
         <item itemvalue="JUnit.IoTDeviceServiceTest.givenIoTDeviceRepository_whenInsertListIoT_thenReturnListDevice" />
         <item itemvalue="JUnit.IoTDeviceServiceTest" />
-        <item itemvalue="JUnit.IoTDeviceServiceTest.givenIoTDeviceRepository_whenFindAllDevices_thenReturnEmptyList" />
       </list>
     </recent_temporary>
   </component>
@@ -228,7 +232,15 @@
       <option name="project" value="LOCAL" />
       <updated>1699039072395</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="refactor: ms IoTDevices.">
+      <option name="closed" value="true" />
+      <created>1699039496117</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1699039496117</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -237,6 +249,7 @@
     <MESSAGE value="refactor: Unity test IoTDeviceSerivce." />
     <MESSAGE value="refactor: Broker MQ." />
     <MESSAGE value="refactor: refact folder." />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: refact folder." />
+    <MESSAGE value="refactor: ms IoTDevices." />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: ms IoTDevices." />
   </component>
 </project>
