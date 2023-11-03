@@ -4,57 +4,55 @@ import com.padotec.coding.tests.dto.request.IoTDeviceListRequest;
 import com.padotec.coding.tests.dto.response.IoTDeviceResponse;
 import com.padotec.coding.tests.entities.IoTDevice;
 import com.padotec.coding.tests.repositories.IoTDeviceRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class IoTDeviceService {
     private final IoTDeviceRepository iotDeviceRepository;
+    private final ModelMapper mapper;
+    public static final String DEVICE_NOT_FOUND = "Device not found!";
 
-    public IoTDeviceService(IoTDeviceRepository iotDeviceRepository) {
+    public IoTDeviceService(IoTDeviceRepository iotDeviceRepository, ModelMapper mapper) {
         this.iotDeviceRepository = iotDeviceRepository;
+        this.mapper = mapper;
     }
 
     public List<IoTDeviceResponse> findAllDevice() {
         return this.iotDeviceRepository
                 .findAll()
                 .stream()
-                .map(IoTDeviceResponse::of)
+                .map(iot -> mapper.map(iot, IoTDeviceResponse.class))
                 .collect(Collectors.toList());
     }
 
     public IoTDeviceResponse findDeviceById(Long id) {
-        IoTDevice device =  this.iotDeviceRepository.findById(id).orElseThrow();
+        Optional<IoTDevice> device = this.iotDeviceRepository.findById(id);
 
-        return IoTDeviceResponse.of(device);
+        if (device.isEmpty())
+            throw new ResourceNotFoundException(DEVICE_NOT_FOUND);
+
+        return this.mapper.map(device.get(), IoTDeviceResponse.class);
     }
 
     public IoTDeviceResponse insertIoT(IoTDeviceListRequest request) {
-        IoTDevice diveceFromRequest = this.fromRequest(request);
+        IoTDevice diveceFromRequest = this.mapper.map(request, IoTDevice.class);
         IoTDevice response = this.iotDeviceRepository.save(diveceFromRequest);
 
-        return IoTDeviceResponse.of(response);
+        return this.mapper.map(response, IoTDeviceResponse.class);
     }
 
     public void insertListIoT(List<IoTDeviceListRequest> requests) {
-        List<IoTDevice> devices = requests.
-                stream()
-                .map(this::fromRequest)
+        List<IoTDevice> devices = requests
+                .stream()
+                .map(request -> mapper.map(request, IoTDevice.class))
                 .collect(Collectors.toList());
 
         this.iotDeviceRepository.saveAll(devices);
     }
-
-    private IoTDevice fromRequest(IoTDeviceListRequest ioTDeviceResponse) {
-        return new IoTDevice(
-                ioTDeviceResponse.getName(),
-                ioTDeviceResponse.getMac(),
-                ioTDeviceResponse.getEmail(),
-                ioTDeviceResponse.getLatitude(),
-                ioTDeviceResponse.getLongitude()
-        );
-    }
-
 }
