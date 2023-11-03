@@ -1,6 +1,6 @@
 package com.padotec.coding.tests.services;
 
-import com.padotec.coding.tests.dto.request.IoTDeviceListRequest;
+import com.padotec.coding.tests.dto.request.IoTDeviceRequest;
 import com.padotec.coding.tests.dto.response.IoTDeviceResponse;
 import com.padotec.coding.tests.entities.IoTDevice;
 import com.padotec.coding.tests.repositories.IoTDeviceRepository;
@@ -27,12 +27,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class IoTDeviceServiceTest {
-    public static final long DEVICE_ID = 1L;
-    public static final String NAME = "Laboratório";
-    public static final String MAC = "B7-92-EE-8F-34-AA";
-    public static final String EMAIL = "laboratorio@gmail.com";
-    public static final double LATITUDE = 9989.98;
-    public static final double LONGITUDE = 7758.99;
+    private static final long DEVICE_ID = 1L;
+    private static final String NAME = "Laboratório";
+    private static final String MAC = "B7-92-EE-8F-34-AA";
+    private static final String EMAIL = "laboratorio@gmail.com";
+    private static final double LATITUDE = 9989.98;
+    private static final double LONGITUDE = 7758.99;
     private IoTDeviceRepository repository;
     private IoTDeviceService service;
     private IoTDevice device;
@@ -102,7 +102,7 @@ class IoTDeviceServiceTest {
     void givenIoTDeviceRepository_whenInsertIoT_thenReturnDevice() {
         when(repository.save(any(IoTDevice.class))).thenReturn(device);
 
-        IoTDeviceResponse expected = this.service.insertIoT(new IoTDeviceListRequest());
+        IoTDeviceResponse expected = this.service.insertIoT(new IoTDeviceRequest());
         IoTDeviceResponse actual = new IoTDeviceResponse(device);
 
         assertNotNull(actual);
@@ -115,7 +115,7 @@ class IoTDeviceServiceTest {
     @DisplayName("Insert a single list of devices")
     @Test
     void givenIoTDeviceRepository_whenInsertListIoT_thenReturnListDevice() {
-        List<IoTDeviceListRequest> singleListRequest = singletonList(new IoTDeviceListRequest());
+        List<IoTDeviceRequest> singleListRequest = singletonList(new IoTDeviceRequest());
 
         when(repository.saveAll(anyList())).thenReturn(singletonList(device));
 

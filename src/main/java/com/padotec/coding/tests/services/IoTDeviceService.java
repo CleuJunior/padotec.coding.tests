@@ -1,6 +1,6 @@
 package com.padotec.coding.tests.services;
 
-import com.padotec.coding.tests.dto.request.IoTDeviceListRequest;
+import com.padotec.coding.tests.dto.request.IoTDeviceRequest;
 import com.padotec.coding.tests.dto.response.IoTDeviceResponse;
 import com.padotec.coding.tests.entities.IoTDevice;
 import com.padotec.coding.tests.repositories.IoTDeviceRepository;
@@ -40,19 +40,23 @@ public class IoTDeviceService {
         return this.mapper.map(device.get(), IoTDeviceResponse.class);
     }
 
-    public IoTDeviceResponse insertIoT(IoTDeviceListRequest request) {
+    public IoTDeviceResponse insertIoT(IoTDeviceRequest request) {
         IoTDevice diveceFromRequest = this.mapper.map(request, IoTDevice.class);
         IoTDevice response = this.iotDeviceRepository.save(diveceFromRequest);
 
         return this.mapper.map(response, IoTDeviceResponse.class);
     }
 
-    public void insertListIoT(List<IoTDeviceListRequest> requests) {
+    public List<IoTDeviceResponse> insertListIoT(List<IoTDeviceRequest> requests) {
         List<IoTDevice> devices = requests
                 .stream()
                 .map(request -> mapper.map(request, IoTDevice.class))
                 .collect(Collectors.toList());
 
-        this.iotDeviceRepository.saveAll(devices);
+        return this.iotDeviceRepository
+                .saveAll(devices)
+                .stream()
+                .map(d -> mapper.map(d, IoTDeviceResponse.class))
+                .collect(Collectors.toList());
     }
 }

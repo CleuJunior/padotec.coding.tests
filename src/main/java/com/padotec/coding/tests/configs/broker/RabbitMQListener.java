@@ -1,4 +1,4 @@
-package com.padotec.coding.tests.configs;
+package com.padotec.coding.tests.configs.broker;
 
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;

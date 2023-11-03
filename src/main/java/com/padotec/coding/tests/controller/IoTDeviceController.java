@@ -1,7 +1,7 @@
 package com.padotec.coding.tests.controller;
 
-import com.padotec.coding.tests.configs.RabbitMQConfig;
-import com.padotec.coding.tests.dto.request.IoTDeviceListRequest;
+import com.padotec.coding.tests.configs.broker.RabbitMQConfig;
+import com.padotec.coding.tests.dto.request.IoTDeviceRequest;
 import com.padotec.coding.tests.dto.response.IoTDeviceResponse;
 import com.padotec.coding.tests.services.IoTDeviceService;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -44,7 +44,7 @@ public class IoTDeviceController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, URI>> insertIoT(@RequestBody IoTDeviceListRequest request) {
+    public ResponseEntity<Map<String, URI>> insertIoT(@RequestBody IoTDeviceRequest request) {
         IoTDeviceResponse response = this.iotDeviceService.insertIoT(request);
 
         URI uri = ServletUriComponentsBuilder
@@ -53,17 +53,15 @@ public class IoTDeviceController {
                 .buildAndExpand(response.getDeviceId())
                 .toUri();
 
-        Map<String, URI> responseMap = Map.of("IoTDevice", uri);
+        Map<String, URI> responseMap = Map.of("device", uri);
 
         return ResponseEntity.created(uri).body(responseMap);
     }
 
-    @PostMapping(value = "/registrar/async")
-    public ResponseEntity<List<Void>> insertIoTList(@RequestBody List<IoTDeviceListRequest> requests) {
-        this.iotDeviceService.insertListIoT(requests);
+    @PostMapping(value = "/async")
+    public ResponseEntity<Map<String, String>> insertIoTList(@RequestBody List<IoTDeviceRequest> requests) {
         this.amqpTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, requests);
 
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.accepted().body(Map.of("devices", "accepted"));
     }
-
 }

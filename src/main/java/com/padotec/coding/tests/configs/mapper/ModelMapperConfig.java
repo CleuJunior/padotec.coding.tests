@@ -1,4 +1,4 @@
-package com.padotec.coding.tests.configs;
+package com.padotec.coding.tests.configs.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
